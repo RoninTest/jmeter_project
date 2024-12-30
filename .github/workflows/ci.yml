@@ -1,0 +1,37 @@
+name: JMeter Booking Project Action-1.0
+
+on:
+  workflow_dispatch:
+    inputs:
+      virtual_user:
+        required: true
+        description: Virtual User
+        default: '10'
+      ramp_up_time:
+        required: true
+        description: Ramp-Up Time
+        default: '2'
+      loop_count:
+        required: true
+        description: Loop Count
+        default: '1'
+
+jobs:
+  action_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Booking Performance Test
+        uses: rbhadti94/apache-jmeter-action@v0.5.0
+        with:
+          testFile: BookingJmeter.jmx
+          outputReportFolder: reports/
+          args: -Juser_count=${{ github.event.inputs.virtual_user }} -Jramp_up=${{ github.event.inputs.ramp_up_time }} -Jloop_count=${{ github.event.inputs.loop_count }}
+
+      - name: Upload JMeter Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: reports/
