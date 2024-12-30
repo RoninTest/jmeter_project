@@ -26,8 +26,8 @@ jobs:
       - name: Run Booking Performance Test
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         with:
-          testFile: BookingJmeter.jmx
-          outputReportFolder: reports/
+          testFilePath: BookingJmeter.jmx
+          outputReportsFolder: reports/
           args: -Juser_count=${{ github.event.inputs.virtual_user }} -Jramp_up=${{ github.event.inputs.ramp_up_time }} -Jloop_count=${{ github.event.inputs.loop_count }}
 
       - name: Upload JMeter Results
